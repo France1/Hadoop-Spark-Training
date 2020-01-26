@@ -30,4 +30,7 @@ sqoop import \
    --username <username> \                                       # root or retail_dba
    --password <password> \                                       # cloudera
    --table <table-name>  \                                       # customers
+   --warehouse-dir <dir> \                                       # /user/cloudera/warehouse
+   --target-dir <dir> \                                          # /user/cloudera/customers
+   --delete-target-dir \
 ```
