@@ -32,5 +32,6 @@ sqoop import \
    --table <table-name>  \                                       # customers
    --warehouse-dir <dir> \                                       # /user/cloudera/warehouse
    --target-dir <dir> \                                          # /user/cloudera/customers
-   --delete-target-dir \
+   --delete-target-dir \                                         # if target-dir already exists
+   --as-avrodatafile \                                           # import data to Avro data files
 ```
