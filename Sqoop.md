@@ -1,7 +1,7 @@
 # Sqoop commands to import a local database into HDFS
 
 ### Navigate through the mySQL local databases
-Before importing data into HDFS it is helpful to get more information about the database that needs to be imported. Cloudera Quistart VM has mySQL and some example databases that can be used for practicing. The one that will be usedd is the `retail_db` database.
+Before importing data into HDFS it is helpful to get more information about the database that needs to be imported. Cloudera Quistart VM has mySQL and some example databases that can be used for practicing. The one that will be used is the `retail_db` database.
 
 Connect to mySQL in Cloudera Quickstart VM:
 ```
@@ -12,7 +12,7 @@ Visualise the databases in the local machine:
 ```
 show databases;
 ```
-Select `retail_db` and show the tables inside:
+Select `retail_db` and show its tables:
 ```
 use retail_db;
 show tables;
