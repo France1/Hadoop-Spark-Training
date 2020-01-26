@@ -27,7 +27,7 @@ The template of a Sqoop command for importing a RDMS into HDFS is as follows:
 ```
 sqoop import \
    --connect jdbc:sqlserver://<host>:<port>/<database_name> \    # jdbc:mysql://quickstart:3306/retail_db
-   --username <username> \                                       # root or retail_dba
+   --username <username> \                                       # root
    --password <password> \                                       # cloudera
    --table <table-name>  \                                       # customers
    --warehouse-dir <dir> \                                       # /user/cloudera/warehouse
