@@ -22,8 +22,12 @@ Visualise the columns in `customers` table, and the number of rows
 describe customers;
 select count(*) from customers;
 ```
-
-The template of a Sqoop command for this task is as follows:
+### Backbone of sqoop import commands
+The template of a Sqoop command for importing a RDMS into HDFS is as follows:
 ```
-
+sqoop import \
+   --connect jdbc:sqlserver://<host>:<port>/<database_name> \    # jdbc:mysql://quickstart:3306/retail_db
+   --username <username> \                                       # root or retail_dba
+   --password <password> \                                       # cloudera
+   --table <table-name>  \                                       # customers
 ```
