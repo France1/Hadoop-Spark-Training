@@ -110,3 +110,42 @@ sqoop import \
   --fields-terminated-by "\t" \
   --where "order_status='COMPLETE'" 
 ```
+
+### Problem 2
+##### Instructions:
+Connect to mySQL database using sqoop, import all customers that lives in 'CA' state
+##### Data Description:
+A mysql instance is running on quickstart at port 3306. In that instance, you will find orders table that
+contains order’s data.
+- Installation: `quickstart:3306`
+- Database name: `retail_db`
+- Table name: `customers`
+- Username: `root`
+- Password: `cloudera`
+##### Output Requirement:
+Place the customer’s files in HDFS directory "/user/cloudera/problem2/customers_selected/avrodata"
+Use parquet format and snappy compression.
+Load only customer_id,customer_fname,customer_lname,customer_state
+##### Solution
+```
+sqoop import \
+  --connect jdbc:mysql://quickstart:3306/retail_db \
+  --username root \
+  --password cloudera \
+  --table customers \
+  --target-dir "/user/cloudera/problem2/customers_selected/avrodata" \
+  --delete-target-dir \
+  --as-avrodatafile \
+  --compress \
+  --compression-codec snappy \
+  --columns "customer_id,customer_fname,customer_lname,customer_state" \
+  --where "customer_state='CA'" 
+```
+To verify that data has been imported into HDFS
+```
+hdfs dfs -ls /user/cloudera/problem2/customers_selected/avrodata
+```
+Use `avro-tools` to read the content of the compressed avro files
+```
+avro-tools tojson hdfs://localhost/user/cloudera/problem2/customers_selected/avrodata/part-m-00000.avro
+```
