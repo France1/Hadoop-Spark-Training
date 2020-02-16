@@ -86,7 +86,7 @@ A mysql instance is running on quickstart at port 3306. In that instance, you wi
 contains order’s data.
 - Installation: `quickstart:3306`
 - Database name: `retail_db`
-- Table name: `Orders`
+- Table name: `orders`
 - Username: `root`
 - Password: `cloudera`
 ##### Output Requirement:
