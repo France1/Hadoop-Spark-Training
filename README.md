@@ -5,6 +5,8 @@ All the examples and exercises are run using [Cloudera QuickStart Docker Image](
 
 To start the Docker image run
 ```
-docker run --hostname=quickstart.cloudera --privileged=true -t -i -v $(pwd):<your-docker-dir> -p 8888:8888 -p 80:80 cloudera/quickstart /usr/bin/docker-quickstart
+docker run --hostname=quickstart.cloudera --privileged=true -t -i \ 
+-v $(pwd):/cloudera -p 8888:8888 -p 80:80 \
+cloudera/quickstart /usr/bin/docker-quickstart
 ```
-Cloudera Live VM can be accessed at `localhost:80` and Hue at `localhost:8888` using `admin` as username and password.
+Cloudera Live VM can be accessed at `localhost:80` and Hue at `localhost:8888` using `admin` for both username and password.
