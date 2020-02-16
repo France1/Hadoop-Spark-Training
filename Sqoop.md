@@ -84,11 +84,11 @@ Connect to mySQL database using sqoop, import all orders that have order_status 
 ##### Data Description:
 A mysql instance is running on quickstart at port 3306. In that instance, you will find orders table that
 contains order’s data.
-> Installation: quickstart:3306
-> Database name: retail_db
-> Table name: Orders
-> Username: root
-> Password: cloudera
+- Installation: quickstart:3306
+- Database name: retail_db
+- Table name: Orders
+- Username: root
+- Password: cloudera
 ##### Output Requirement:
 Place the customer’s files in HDFS directory "/user/cloudera/problem1/orders/parquetdata"
 Use parquet format with tab delimiter and snappy compression.
