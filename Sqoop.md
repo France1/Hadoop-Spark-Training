@@ -110,6 +110,18 @@ sqoop import \
   --fields-terminated-by "\t" \
   --where "order_status='COMPLETE'" 
 ```
+To verify that data has been imported into HDFS
+```
+hdfs dfs -ls /user/cloudera/problem1/orders/parquetdata
+```
+Use `parquet-tools` to read the first 5 rows of the compressed parquet files
+```
+parquet-tools head -n5 hdfs://localhost/user/cloudera/problem1/orders/parquetdata/1c2b1059-499a-420c-a5b4-db82256a4044.parquet
+```
+and the metadata
+```
+parquet-tools meta hdfs://localhost/user/cloudera/problem1/orders/parquetdata/1c2b1059-499a-420c-a5b4-db82256a4044.parquet
+```
 
 ### Problem 2
 ##### Instructions:
@@ -148,4 +160,8 @@ hdfs dfs -ls /user/cloudera/problem2/customers_selected/avrodata
 Use `avro-tools` to read the content of the compressed avro files
 ```
 avro-tools tojson hdfs://localhost/user/cloudera/problem2/customers_selected/avrodata/part-m-00000.avro
+```
+and the metadata
+```
+avro-tools getmeta hdfs://localhost/user/cloudera/problem2/customers_selected/avrodata/part-m-00000.avro
 ```
