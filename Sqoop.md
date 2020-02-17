@@ -165,3 +165,41 @@ and the metadata
 ```
 avro-tools getmeta hdfs://localhost/user/cloudera/problem2/customers_selected/avrodata/part-m-00000.avro
 ```
+### Problem 3
+##### Instructions:
+Connect to mySQL database using sqoop, import all customers whose street name contains "Plaza"
+##### Data Description:
+A mysql instance is running on the localhost node.In that instance you will find customers table
+that contains customers data. 
+- Installation : `localhost`
+- Database name: `retail_db`
+- Table name: `customers`
+- Username: `root`
+- Password: `cloudera`
+##### Output Requirement:
+Place the customers files in HDFS directory "/user/cloudera/problem3/customers/textdata".
+Save output in text format with fields seperated by a '*' and lines should be terminated by pipe Load only "Customer id, Customer fname, Customer lname and Customer street name".
+Sample Output
+11942*Mary*Bernard*Tawny Fox Plaza|10480*Robert*Smith*Lost Horse Plaza|.................................
+##### Solution
+```
+sqoop import \
+  --connect jdbc:mysql://quickstart:3306/retail_db \
+  --username root \
+  --password cloudera \
+  --table customers \
+  --target-dir "/user/cloudera/problem3/customers/textdata" \
+  --delete-target-dir \
+  --columns "customer_id,customer_fname,customer_lname,customer_street" \
+  --where "customer_street like '%Plaza%'" \
+  --fields-terminated-by '*' \
+  --lines-terminated-by '|' 
+```
+To verify that data has been imported into HDFS
+```
+hdfs dfs -ls /user/cloudera/problem3/customers/textdata
+```
+Use `hdfs dfs` to read the content of the compressed avro files
+```
+hdfs dfs -tail /user/cloudera/problem3/customers/textdata/part-m-00003
+```
