@@ -35,3 +35,19 @@ and also by verifying that HDFS files have been copied:
 ```
 hdfs dfs -ls /user/cloudera/hive_database/customers
 ```
+### Query data from table
+Count the number of customers in each city and return the cities with more than 200 customers sorting the results by the name of the city:
+```
+SELECT city, COUNT(*) FROM customers 
+GROUP BY city 
+HAVING COUNT(*)>200
+ORDER BY city 
+LIMIT 100;
+```
+Create a column `bigCity` with values 1 if the city has more than 50 customers, or 0 otherwise
+```
+SELECT city,
+IF (COUNT(*)>50,1,0) AS bigCity FROM customers
+GROUP BY city;
+```
+
