@@ -50,4 +50,16 @@ SELECT city,
 IF (COUNT(*)>50,1,0) AS bigCity FROM customers
 GROUP BY city;
 ```
-
+### Create table in compressed Parquet format
+Enable Snappy compression:
+```
+SET hive.exec.compress.output=true;
+SET parquet.compression=SNAPPY;
+```
+Crate table stored as Parque files by loading the existing `customers` text files table:
+```
+CREATE TABLE customers_parquet
+STORED AS parquet
+LOCATION '/user/cloudera/customer-parquet'
+AS SELECT * FROM customers;
+```
