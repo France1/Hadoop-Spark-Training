@@ -78,10 +78,12 @@ Create an external table to load `orders` data:
 ```
 CREATE TABLE orders
 (ordid INT, date STRING, custid INT, status STRING)
-ROW FORMAT DELIMITED FIELDS TERMINATED BY ","
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ","
+STORED AS TEXTFILE
 LOCATION '/user/cloudera/orders';
 ```
 Load data from HDFS location into Hive `orders` table:
 ```
-LOAD DATA INPATH '/user/cloudera/orders' OVERWRITE INTO TABLE 'orders';
+LOAD DATA INPATH '/user/cloudera/orders' OVERWRITE INTO TABLE orders;
 ```
