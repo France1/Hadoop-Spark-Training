@@ -25,7 +25,7 @@ STORED AS TEXTFILE;
 ```
 Load data from HDFS location into Hive `customers` table:
 ```
-LOAD DATA INPATH '/user/cloudera/customers' OVERWRITE INTO TABLE 'customers'
+LOAD DATA INPATH '/user/cloudera/customers' OVERWRITE INTO TABLE customers
 ```
 Verify that data has been loaded:
 ```
@@ -72,18 +72,46 @@ sqoop import \
   --username root \
   --password cloudera \
   --table orders \
-  --target-dir "/user/cloudera/orders" 
+  --target-dir "/user/cloudera/orders" \
+  --delete-target-dir
 ```
 Create an external table to load `orders` data:
 ```
-CREATE TABLE orders
+CREATE EXTERNAL TABLE orders
 (ordid INT, date STRING, custid INT, status STRING)
 ROW FORMAT DELIMITED 
 FIELDS TERMINATED BY ","
 STORED AS TEXTFILE
-LOCATION '/user/cloudera/orders';
+LOCATION '/user/cloudera/hive_orders';
 ```
 Load data from HDFS location into Hive `orders` table:
 ```
 LOAD DATA INPATH '/user/cloudera/orders' OVERWRITE INTO TABLE orders;
 ```
+Show which are the different `status` in `orders` table:
+```
+SELECT DISTINCT(status) FROM orders;
+```
+Create partitioned table
+```
+CREATE EXTERNAL TABLE orders_partitioned
+(ordid INT, date STRING, custid INT)
+PARTITIONED BY (status STRING)
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ",";
+```
+Enable partitioning:
+```
+set hive.exec.dynamic.partition=true;
+set hive.exec.dynamic.partition.mode=nonstrict;
+```
+Populate partitioned table:
+```
+INSERT OVERWRITE TABLE orders_partitioned 
+PARTITION (status)
+SELECT ordid, date, custid, status FROM orders;
+```
+Show partitions that have been created:
+```
+SHOW PARTITIONS orders_partitioned;
+ ```
