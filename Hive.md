@@ -63,3 +63,14 @@ STORED AS parquet
 LOCATION '/user/cloudera/customer-parquet'
 AS SELECT * FROM customers;
 ```
+
+### Partition table
+Import `orders` table into HDFS:
+```
+sqoop import \
+  --connect jdbc:mysql://quickstart:3306/retail_db \
+  --username root \
+  --password cloudera \
+  --table orders \
+  --target-dir "/user/cloudera/orders" 
+```
