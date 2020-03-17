@@ -64,7 +64,7 @@ LOCATION '/user/cloudera/customer-parquet'
 AS SELECT * FROM customers;
 ```
 
-### Partition table
+### Table Partitioning
 Import `orders` table into HDFS:
 ```
 sqoop import \
@@ -114,4 +114,8 @@ SELECT ordid, date, custid, status FROM orders;
 Show partitions that have been created:
 ```
 SHOW PARTITIONS orders_partitioned;
- ```
+```
+Query ordered that have been cancelled using status partitioning:
+```
+SELECT * FROM orders_partitioned WHERE status = 'CANCELED' LIMIT 5;
+```
