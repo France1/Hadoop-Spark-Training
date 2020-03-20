@@ -119,3 +119,20 @@ Query ordered that have been cancelled using status partitioning:
 ```
 SELECT * FROM orders_partitioned WHERE status = 'CANCELED' LIMIT 5;
 ```
+### Table bucketing
+Create table separated into 10 buckets
+```
+CREATE EXTERNAL TABLE orders_bucketed
+(ordid INT, date STRING, custid INT,status STRING) CLUSTERED BY (custid) into 10 BUCKETS
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',' ;
+```
+Enable bucketing
+```
+set hive.enforce.bucketing = true;
+```
+Populate the buckets
+```
+INSERT OVERWRITE TABLE orders_bucketed 
+SELECT ordid, date, custid, status from orders;
+ ```
