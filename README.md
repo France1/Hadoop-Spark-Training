@@ -5,7 +5,7 @@ All the examples and exercises are run using [Cloudera QuickStart Docker Image](
 
 To start the Docker image run
 ```
-docker run --hostname=quickstart.cloudera --privileged=true -t -i \ 
+docker run --hostname=quickstart.cloudera --privileged=true -it \
 -v $(pwd):/cloudera -p 8888:8888 -p 80:80 \
 cloudera/quickstart /usr/bin/docker-quickstart
 ```
