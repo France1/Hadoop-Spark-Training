@@ -10,3 +10,6 @@ docker run --hostname=quickstart.cloudera --privileged=true -it \
 cloudera/quickstart /usr/bin/docker-quickstart
 ```
 Cloudera Live VM can be accessed at `localhost:80` and Hue at `localhost:8888` using `admin` for both username and password.
+
+
+
