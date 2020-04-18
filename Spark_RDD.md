@@ -68,7 +68,7 @@ val rdd = sc.parallelize(List(1,1,2,2,3,4,5),2)
 val resultRDD = rdd.mapPartitions(iter => List(iter.toList).iterator)
 resultRDD.collect()
 ```
-Similar to above but with indexing using **mapPartitionsWithIndex**
+Similar to above but with indexing using **mapPartitionsWithIndex()**
 ```
 val rdd = sc.parallelize(List(1,1,2,2,3,4,5),3) 
 val resultRDD = rdd.mapPartitionsWithIndex{
@@ -105,3 +105,67 @@ val pairRdd = rdd.map(x => (x.split(',')(0),x.split(',')(1).toInt))
 val sortedRDD = pairRdd.sortBy(_._2)
 sortedRDD.collect
 ```
+Apply function to values (without operating on keys) using **mapValues()**
+```
+val rdd = sc.parallelize(Array(("jim",1),("john",2))) 
+val pairRdd = rdd.mapValues(x => x*2) 
+pairRdd.collect()
+```
+Inner join RDD arrays on keys using **join()**
+```
+val rdd1 = sc.parallelize(Array(("jim","j@gmail.com"),("john","john@gmail.com")))
+val rdd2 = sc.parallelize(Array(("rob","robb@gmail.com"),("john","john25@gmail.co m"),("jim","jim32@gmail.com")))
+val joinedRdd = rdd1.join(rdd2)
+```
+Descrease the number of partitions in a node (without reshuffling) using **coalescence()**
+```
+val rdd = sc.parallelize(List(1,1,2,2,3,4,5),3) 
+rdd.partitions.size
+val coalescedRdd = rdd.coalesce(1) 
+coalescedRdd.partitions.size
+```
+Change partitions of RDD with reshuffling
+```
+val rdd = sc.parallelize(List(1,1,2,2,3,4,5)) 
+rdd.partitions.size
+val repartitionedRdd = rdd.repartition(3) 
+repartitionedRdd.partitions.size
+```
+
+## Actions
+
+Collect and return entire RDD to driver using **collect()**
+```
+val rdd = sc.parallelize(List(1,2,3,4,5)) 
+rdd.collect()
+```
+Retrieve n elements to driver using **take()**
+```
+rdd.take(2)
+```
+Retrieve first element to driver using **first()**
+```
+rdd.first()
+```
+Count and return number of elements using **count()**
+```
+rdd.count()
+```
+Retrieve first n elements to driver using **top()**
+```
+rdd.top(2)
+```
+Return frequency of elements using **countByValue()**
+```
+val rdd = sc.parallelize(List(1,1,2,2,2,3,4,4,5)) 
+rdd.countByValue()
+```
+Sum elements using **reduce()**
+```
+rdd.reduce(_+_)
+```
+Print all elements using **foreach()**
+```
+rdd.foreach(println)
+```
+
