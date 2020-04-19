@@ -169,3 +169,17 @@ Print all elements using **foreach()**
 rdd.foreach(println)
 ```
 
+## Problems
+### Problem 1
+Filter out all ERROR logs from log file.
+- Input location: /user/cloudera/practice/problem1/log.txt
+- Output location: /user/cloudera/practice/problem1_sol
+- Save as text file
+
+Solution:
+```
+val rdd = sc.textFile("/user/cloudera/practice/problem1/log.txt")
+val rdd_filt = rdd.filter(x => !(x.contains("ERROR")))
+rdd_filt.saveAsTextFile("/user/cloudera/practice/problem1_sol")
+```
+
