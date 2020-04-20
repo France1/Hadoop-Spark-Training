@@ -25,7 +25,7 @@ val rdd = sc.textFile("/user/cloudera/practice/employees.txt")
 val resultRDD = rdd.map(x => x.length) 
 resultRDD.collect()
 ```
-Collect all entries in comma separated text file using **flatmap()**
+Collect all entries in comma separated text file using **flatMap()**
 ```
 val rdd = sc.textFile("/user/cloudera/practice/employees.txt") 
 val resultRDD = rdd.flatMap(x => x.split(","))
@@ -172,14 +172,30 @@ rdd.foreach(println)
 ## Problems
 ### Problem 1
 Filter out all ERROR logs from log file.
-- Input location: /user/cloudera/practice/problem1/log.txt
-- Output location: /user/cloudera/practice/problem1_sol
+- Input location: /user/cloudera/problem1/log.txt
+- Output location: /user/cloudera/problem1_sol
 - Save as text file
 
 Solution:
 ```
-val rdd = sc.textFile("/user/cloudera/practice/problem1/log.txt")
+val rdd = sc.textFile("/user/clouderaproblem1/log.txt")
 val rdd_filt = rdd.filter(x => !(x.contains("ERROR")))
-rdd_filt.saveAsTextFile("/user/cloudera/practice/problem1_sol")
+rdd_filt.saveAsTextFile("/user/cloudera/problem1_sol")
 ```
+### Problem 2
+Find frequency of words in a text file and save output in descending order
+- Input location: /user/cloudera/problem2/customer.txt 
+- Output location: /user/cloudera/problem2_sol
+- Expected output: word, frequency
+- Save as text file
 
+Solution:
+```
+val rdd = sc.textFile("/user/cloudera/problem2/customer.txt")
+val rdd_words = rdd.flatMap(x=>x.split(",|\\s"))
+val rdd_filt = rdd_words.filter(x=>x.distinct!="X")
+val rdd_tuple = rdd_filt.map(x=>(x,1))
+val rdd_reduced = rdd_tuple.reduceByKey(x,y=>x+y))
+val rdd_sorted = rdd_reduced.sortBy(_._2, false)
+rdd_sorted.map(x => x._1 + "," + x._2).saveAsTextFile("/user/cloudera/problem2_sol")
+```
