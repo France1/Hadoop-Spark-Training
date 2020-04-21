@@ -216,7 +216,7 @@ val rdd_sort = rdd_freq.sortBy(_._2, false)
 rdd_sort.map(x => s"${x._1} => ${x._2}").saveAsTextFile("/user/cloudera/problem3_sol")
 ```
 ### Problem 4
-Find orders placed by customers in descending order
+Find number of orders placed by customers, and sort results in descending order
 - Input location customers: /user/cloudera/problem4/customer/customers
 - Input location orders: /user/cloudera/problem4/order/orders
 - Expected output: customer_fname, customer_lname => num_orders
