@@ -199,3 +199,42 @@ val rdd_reduced = rdd_tuple.reduceByKey(x,y=>x+y))
 val rdd_sorted = rdd_reduced.sortBy(_._2, false)
 rdd_sorted.map(x => x._1 + "," + x._2).saveAsTextFile("/user/cloudera/problem2_sol")
 ```
+### Problem 3
+Find the population of each city
+- Input location: /user/cloudera/problem3/customer.txt 
+- Output location: /user/cloudera/problem3_sol
+- Expected output: city => population
+- Save as text file
+
+Solution
+```
+val rdd = sc.textFile("/user/cloudera/problem3/customer.txt")
+val rdd_city = rdd.map(x => x.split(",")(6))
+val rdd_pairs = rdd_city.map(x => (x,1))
+val rdd_freq = rdd_pairs.reduceByKey(_+_)
+val rdd_sort = rdd_freq.sortBy(_._2, false)
+rdd_sort.map(x => s"${x._1} => ${x._2}").saveAsTextFile("/user/cloudera/problem3_sol")
+```
+### Problem 4
+Find orders placed by customers in descending order
+- Input location customers: /user/cloudera/problem4/customer/customers
+- Input location orders: /user/cloudera/problem4/order/orders
+- Expected output: customer_fname, customer_lname => num_orders
+- Output location: /user/cloudera/problem4_sol
+
+Solution
+```
+val rdd_customers = sc.textFile("/user/cloudera/problem4/customer/customers")
+val rdd_orders = sc.textFile("/user/cloudera/problem4/order/orders")
+\\ order pairs map-reduce
+val order_pairs = rdd_orders.map(x => (x.split("\t")(2),1))
+val order_reduced = order_pairs.reduceByKey(_+_)
+\\ customer map-reduce
+val customer_pairs = rdd_customers.map{line => 
+  val splitted = line.split("\t") 
+  (splitted(0), splitted(1)+" "+splitted(2))}
+\\ join and sort rdds
+val joined = customer_pairs.join(order_reduced)
+val sorted = joined.sortBy(_._2._2, false) 
+sorted.map(x => s"${x._2._1} => ${x._2._2}").saveAsTextFile("/user/cloudera/problem4_sol")
+```
