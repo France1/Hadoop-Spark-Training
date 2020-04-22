@@ -8,8 +8,8 @@ which will open a scala CLI with Spark Context available as `sc`
 
 Copy data into hdfs as
 ```
-hdfs dfs -mkdir /user/cloudera/practice
-hdfs dfs -copyFromLocal /cloudera/Udemy-CCA175/data/employees.txt /user/cloudera/practice 
+hdfs dfs -mkdir /user/cloudera/
+hdfs dfs -copyFromLocal /cloudera/Udemy-CCA175/data /user/cloudera 
 ```
 
 ## Transformations
@@ -238,3 +238,22 @@ val joined = customer_pairs.join(order_reduced)
 val sorted = joined.sortBy(_._2._2, false) 
 sorted.map(x => s"${x._2._1} => ${x._2._2}").saveAsTextFile("/user/cloudera/problem4_sol")
 ```
+
+### Problem 5
+Find number of movies with average rating larger than 3
+- Input location: /user/cloudera/data/problem5/ratings.txt
+- Output location: /user/cloudera/data/problem5_sol
+- Save as text file
+```
+val rdd = sc.textFile("/user/cloudera/data/problem5/ratings.txt")
+val splitted = rdd.map{line => 
+                       val splitted = line.split("::") 
+                       (splitted(0), splitted(2).toInt)}
+val mapped = splitted.map(x => (x._1, (x._2, 1)))
+val reduced = mapped.reduceByKey((x,y) => (x._1+y._1, x._2+y._2))
+val averaged = reduced.mapValues(x => x._1.toFloat/x._2)
+val rating3 = averaged.filter(x => x._2>3)
+rating3.map(x => f"${x._1}, ${x._2}%1.2f").saveAsTextFile("/user/cloudera/data/problem5_sol")
+```
+
+
