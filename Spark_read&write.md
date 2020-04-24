@@ -1,22 +1,30 @@
 # Spark read and write files in different formats
 
 ## Read files
-Spark uses [DataFrameReader](https://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.sql.DataFrameReader) to load a different data sources from external storage into a dataframe
-### Text, csv, parquet, and json
+Spark uses [DataFrameReader](https://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.sql.DataFrameReader) to load a different data sources from external storage into a dataframe.
+
+#### Text files:
 ```
-val df = spark.read.
-\\       text("file-path.txt")
-\\       csv("file-path.csv")
-\\       json("file-path.json")
-\\       parquet("file-path.parquet")
+val df = spark.read.text("file-path.txt")
 ```
-### Avro
-To read Avro files it is necessary to firstly include the spark avro in the dependencies
+#### CSV files:
+```
+val df = spark.read.csv("file-path.csv")
+```
+#### JSON files:
+```
+val df = spark.read.json("file-path.json")
+```
+#### Parquet files:
+```
+val df = spark.read.parquet("file-path.parquet")
+```
+#### Avro files
+Include the spark avro in the dependencies
 ```
 spark-shell --packages org.apache.spark:spark-avro_2.12:2.4.4
 ```
-Then to read the file as
+then read the file as
 ```
 val df = spark.read.format("avro").load("<file-path.avro>")
 ```
-### Hive tables
