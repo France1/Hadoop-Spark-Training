@@ -25,9 +25,9 @@ df = spark.write.csv("write-path.parquet")
 ```
 #### Avro
 https://databricks.com/blog/2018/11/30/apache-avro-as-a-built-in-data-source-in-apache-spark-2-4.html
-Include the spark avro in the dependencies
+Include the spark avro in the dependencies for the current scala version `2.11`, and spark version `2.4.0`
 ```
-spark-shell --packages org.apache.spark:spark-avro_2.12:2.4.4
+spark-shell --packages org.apache.spark:spark-avro_2.11:2.4.0
 ```
 then read/write files as
 ```
