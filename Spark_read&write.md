@@ -35,7 +35,19 @@ val df = spark.read.format("avro").load("read-path.avro")
 df.write.format("avro").save("write-path.avro")
 df.write.format("com.databricks.spark.avro").saveAsTable(hivedb.hivetable_avro)
 ```
-
-
+#### MySQL
+Download [MySQL driver](https://dev.mysql.com/downloads/connector/j/5.1.html) and make it available to Spark shell 
+```
+spark-shell --driver-class-path mysql-connector-java-5.1.48-bin.jar
+```
+then read table from database as
+```
+val df = spark.read.format("jdbc").
+option("url", "jdbc:mysql://quickstart:3306/retail_db").
+option("dbtable", "orders").
+option("user", "root").
+option("password", "cloudera").
+load()
+```  
 
 
