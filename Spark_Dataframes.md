@@ -64,5 +64,18 @@ Select columns and apply a transformation:
 ```
 df.select($"order_id"+1, $"order_date").show(5)
 \\ or 
-\\ df.select(col("order_id")+1, col("order_date")).show(5)
+df.select(col("order_id")+1, col("order_date")).show(5)
+```
+#### Filter
+Single condition
+```
+df.filter(df("order_status") === "COMPLETE").show(5)
+```
+Multiple conditions
+```
+df.filter(df("order_status") === "COMPLETE" || 
+          df("order_status") === "ON_HOLD").show(5)
+
+df.filter(df("order_status") === "COMPLETE" && 
+          date_format($"order_date", "yyyyMM") === "201308").show(5)
 ```
