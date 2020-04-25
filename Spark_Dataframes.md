@@ -8,6 +8,19 @@ val df = spark.read.
          option("inferSchema","true").
          csv("/cloudera/Hadoop-Spark-Training/data/retail_db/orders.csv")
 ```
+Read data frame and then modify schema
+```
+val df = spark.read.
+         option("header", "true").
+         csv("/cloudera/Hadoop-Spark-Training/data/retail_db/orders.csv")
+
+val df_new = df.select(
+             df("order_id").cast("integer"),
+             df("order_date").cast("timestamp"),
+             df("order_customer_id").cast("integer"),
+             df("order_status").cast("string")
+             )
+```
 Defining dataframe schema before importing
 ```
 import org.apache.spark.sql.types._
@@ -24,17 +37,18 @@ val df = spark.read.
          schema(schema).
          csv("/cloudera/Hadoop-Spark-Training/data/retail_db/orders.csv")
 ```
-Read data frame and then modify schema
+Note that the data types need to be imported with `import org.apache.spark.sql.types._`, with data type names defined as below
 ```
-val df = spark.read.
-         option("header", "true").
-         csv("/cloudera/Hadoop-Spark-Training/data/retail_db/orders.csv")
-
-val df_new = df.select(
-             df("order_id").cast("integer"),
-             df("order_date").cast("timestamp"),
-             df("order_customer_id").cast("integer"),
-             df("order_status").cast("string")
-             )
-```
-             
+BinaryType: binary
+BooleanType: boolean
+ByteType: tinyint
+DateType: date
+DecimalType: decimal(10,0)
+DoubleType: double
+FloatType: float
+IntegerType: int
+LongType: bigint
+ShortType: smallint
+StringType: string
+TimestampType: timestamp
+```         
