@@ -79,3 +79,11 @@ df.filter(df("order_status") === "COMPLETE" ||
 df.filter(df("order_status") === "COMPLETE" && 
           date_format($"order_date", "yyyyMM") === "201308").show(5)
 ```
+#### When
+Mofify column values based on condition
+```
+df.withColumn("new_status", 
+              when(col("order_status").isin("COMPLETED","CLOSED"), "OVER").
+              when(col("order_status") === "CANCELED", "PENDING").
+              otherwise("NONE")).show()
+ ```
