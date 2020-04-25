@@ -1,14 +1,14 @@
 # Spark Dataframes
 
 ## Initialize Dataframe
-Inferring dataframe schema
+#### Infer  schema
 ```
 val df = spark.read.
          option("header", "true").
          option("inferSchema","true").
          csv("/cloudera/Hadoop-Spark-Training/data/retail_db/orders.csv")
 ```
-Read data frame and then modify schema
+#### Read first then modify schema
 ```
 val df = spark.read.
          option("header", "true").
@@ -21,7 +21,7 @@ val df_new = df.select(
              df("order_status").cast("string")
              )
 ```
-Defining dataframe schema before importing
+#### Define schema then read
 ```
 import org.apache.spark.sql.types._
 
