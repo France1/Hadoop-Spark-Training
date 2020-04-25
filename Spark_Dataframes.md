@@ -52,3 +52,16 @@ ShortType: smallint
 StringType: string
 TimestampType: timestamp
 ```         
+
+## Dataframe Operations
+
+#### Select
+Select columns
+```
+df.select("order_id", "order_date").show(5)
+```
+Select columns and apply a transformation:
+```
+df.select($"order_id"+1, $"order_date").show(5)
+\\ or df.select(col("order_id")+1, col("order_date")).show(5)
+```
