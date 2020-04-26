@@ -128,7 +128,7 @@ order_items.select(sum("order_item_subtotal").alias("total_sum")).show()
 ```
 By column keys using **agg()**
 ```
-scala> order_items.groupBy("order_item_quantity").agg(avg("order_item_subtotal")).show(10)
+order_items.groupBy("order_item_quantity").agg(avg("order_item_subtotal")).show(10)
 ```
 with multiple functions
 ```
