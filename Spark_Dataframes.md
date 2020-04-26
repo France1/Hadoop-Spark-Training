@@ -80,10 +80,35 @@ df.filter(df("order_status") === "COMPLETE" &&
           date_format($"order_date", "yyyyMM") === "201308").show(5)
 ```
 #### When
-Mofify column values based on condition
+Modify column values based on condition
 ```
 df.withColumn("new_status", 
               when(col("order_status").isin("COMPLETED","CLOSED"), "OVER").
               when(col("order_status") === "CANCELED", "PENDING").
               otherwise("NONE")).show()
  ```
+#### Join
+Join on single column
+```
+val join_type = "inner"
+orders.join(order_items, orders("order_id") === order_items("order_item_order_id"), join_type).show(5)
+```
+Inner join on multiple columns
+```
+orders.join(order_items, 
+         orders("order_id") === order_items("order_item_order_id") &&
+         orders("order_id") === order_items("order_item_id")
+         ).show(5)
+ ```
+ #### OrderBy
+ Ascending order
+ ```
+ order_items.orderBy("order_item_subtotal").show(5)
+ ```
+ Descending order
+ ```
+ order_items.orderBy(col("order_item_subtotal").desc).show(5)
+ // or
+ order_items.orderBy($"order_item_subtotal".desc).show(5)
+ ```
+
