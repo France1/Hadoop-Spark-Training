@@ -116,3 +116,28 @@ Count items for each status group
 ```
 orders.groupBy("order_status").count.show(10)
 ```
+
+## Aggregations
+Entire data frame 
+```
+order_items.select(max("order_item_subtotal").alias("total_maximum")).show()
+\\ or
+order_items.select(avg("order_item_subtotal").alias("total_average")).show()
+\\ or
+order_items.select(sum("order_item_subtotal").alias("total_sum")).show()
+```
+By column keys using **agg()**
+```
+scala> order_items.groupBy("order_item_quantity").agg(avg("order_item_subtotal")).show(10)
+```
+with multiple functions
+```
+order_items.groupBy("order_item_quantity").agg(round(avg("order_item_subtotal"),2)).show(10)
+```
+with multiple columns
+```
+order_items.groupBy("order_item_quantity").agg(
+         round(avg("order_item_subtotal"),2),
+         round(max("order_item_product_price"),2)
+         ).show(10)
+```
