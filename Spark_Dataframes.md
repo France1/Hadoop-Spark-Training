@@ -111,4 +111,8 @@ orders.join(order_items,
  // or
  order_items.orderBy($"order_item_subtotal".desc).show(5)
  ```
-
+#### GroupBy
+Count items for each status group
+```
+orders.groupBy("order_status").count.show(10)
+```
