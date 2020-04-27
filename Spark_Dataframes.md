@@ -141,3 +141,42 @@ order_items.groupBy("order_item_quantity").agg(
          round(max("order_item_product_price"),2)
          ).show(10)
 ```
+
+## Date functions
+#### Convert to string format
+```
+orders.select($"order_date", (date_format($"order_date", "yyyy/MM/dd a hh:mm:ss.S")).alias("date")).show(5)
+```
+#### Extract from timestamp
+You can extract `year(), quarter(), month(), dayofmonth(), dayofweek(), dayofyear(), hour(), minute(), second(), weekofyear()`
+```
+orders.select($order_date, month($order_date)).show(5)
+```
+#### Operations on dates
+Add or subract days 
+```
+orders.select($"order_date", date_add($"order_date", 1)).show(5)
+\\ or
+orders.select($"order_date", date_sub($"order_date", 1)).show(5)
+```
+Add months
+```
+orders.select($"order_date", add_months($"order_date", 1)).show(5)
+```
+Number of days between two dates
+```
+orders.select(datediff($"order_date", date_sub($"order_date", 5))).show(5)
+```
+Number of monthd between two dates
+```
+orders.select(months_between(add_months($"order_date", 1), $"order_date")).show(5)
+```
+#### Unix date/time
+Convert timestamp to into seconds after epoch date (1 Jan 1970)
+```
+val orders_epoch = orders.select($"order_date", (unix_timestamp($"order_date")).alias("epoch_date"))
+```
+Convert epoch timestamp into date/time
+```
+orders_epoch.select($"order_date", from_unixtime($"epoch_date", "yyyy-MM-dd")).show(5)
+```
