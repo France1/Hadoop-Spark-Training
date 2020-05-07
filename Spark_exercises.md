@@ -84,3 +84,22 @@ val ratio = revenues.withColumn("ratio", round($"order_item_subtotal"/$"order_re
             orderBy("order_item_order_id")
 ratio.filter($"ratio" >= 0.75).show(10)
 ```
+
+### Problem 5
+Find difference of revenue in top 2 orders
+```
+import org.apache.spark.sql.expressions.Window
+
+\\ rank orders with same order_id by revenue
+val window = Window.partitionBy("order_item_order_id").orderBy($"order_item_subtotal".desc)
+val ranked = order_items.withColumn("rank", rank().over(window))
+
+\\ create column with 2nd highest order
+val next_order = ranked.withColumn("next", lead($"order_item_subtotal",1).over(window)).na.fill(0, Array("next"))
+
+\\ difference between item revenue and shifted item revenue
+val diff_order = next_order.withColumn("diff", round($"order_item_subtotal"-$"next",1))
+
+\\ select only 1st and 2nd largest revenue
+diff_order.filter($"rank" === 1).show(10)
+```
