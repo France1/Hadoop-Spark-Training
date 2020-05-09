@@ -103,3 +103,24 @@ val diff_order = next_order.withColumn("diff", round($"order_item_subtotal"-$"ne
 \\ select only 1st and 2nd largest revenue
 diff_order.filter($"rank" === 1).show(10)
 ```
+
+### Problem 6
+Find best selling and second best selling product in each category
+```
+import org.apache.spark.sql.expressions.Window
+
+\\ joine order_items, products, and categories tables
+val joined = order_items.join(products, order_items("order_item_product_id") === products("product_id")).
+                         join(categories, products("product_category_id") === categories("category_id")).
+                         select("product_name", "category_name", "order_item_subtotal")
+                         
+\\ sum orders across categories and products
+val grouped = joined.groupBy("product_name","category_name").agg(round(sum("order_item_subtotal"),1).alias("order_revenue"))
+
+\\ rank revenues across categories
+val window = Window.partitionBy("category_name").orderBy($"order_revenue".desc)
+val ranked = grouped.withColumn("ranked", rank().over(window))
+
+\\ show first 2 best selling products
+ranked.filter($"ranked" <= 2).orderBy("category_name").orderBy("category_name","ranked").show(10)
+```
