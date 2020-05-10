@@ -124,3 +124,24 @@ val ranked = grouped.withColumn("ranked", rank().over(window))
 \\ show first 2 best selling products
 ranked.filter($"ranked" <= 2).orderBy("category_name").orderBy("category_name","ranked").show(10)
 ```
+
+### Problem 7
+Find the difference between the revenue of each product and the the revenue of the best selling product in each category
+```
+import org.apache.spark.sql.expressions.Window
+
+\\ join order_items and products tables
+val joined = order_items.join(products, order_items("order_item_product_id") === products("product_id")).
+                         join(categories, products("product_category_id") === categories("category_id")).
+                         select("product_name", "category_name", "order_item_subtotal")
+
+\\ calculate revenue by product and category
+val grouped = joined.groupBy("product_name","category_name").agg(round(sum("order_item_subtotal"),1).alias("product_revenue"))
+
+\\ max revenue in each category
+val window = Window.partitionBy("category_name").orderBy($"product_revenue".desc)
+val ranked = grouped.withColumn("top_revenue", max($"product_revenue").over(window))
+
+\\ difference between product revenue and top category revenue
+val diff_revenues = ranked.withColumn("diff", round($"top_revenue"-$"product_revenue",1)).drop("top_revenue")
+```
