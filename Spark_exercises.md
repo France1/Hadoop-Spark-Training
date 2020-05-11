@@ -145,3 +145,27 @@ val ranked = grouped.withColumn("top_revenue", max($"product_revenue").over(wind
 \\ difference between product revenue and top category revenue
 val diff_revenues = ranked.withColumn("diff", round($"top_revenue"-$"product_revenue",1)).drop("top_revenue")
 ```
+
+### Problem 8
+Find most selling product by quantity for every month between July 2013 and July 2014
+```
+import org.apache.spark.sql.expressions.Window
+
+\\ join orders, order_items, and products tables
+val df_joined = orders.join(order_items, order_items("order_item_order_id") === orders("order_id")).
+                       join(products, order_items("order_item_product_id") === products("product_id")). 
+                       select("order_date", "product_name", "order_item_quantity")
+                       
+\\ add month column and select between 07-2013 and 07-2014
+val df_month = df_joined.withColumn("month", date_format($"order_date", "yyyy-MM")).
+                         filter($"month" >= "2013-07" && $"month" <= "2014-07")
+                         
+\\ calculate total order for each product in each month
+val df_grouped = df_month.groupBy("product_name", "month").agg(sum("order_item_quantity").alias("product_orders"))
+
+\\ rank products by number of orders in each month
+val window = Window.partitionBy("month").orderBy($"product_orders".desc)
+val ranked = df_grouped.withColumn("rank", rank().over(window))
+
+\\ select top order in each month
+ranked.filter($"rank" === 1).orderBy("month").show(10)
