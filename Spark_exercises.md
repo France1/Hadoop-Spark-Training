@@ -169,3 +169,20 @@ val ranked = df_grouped.withColumn("rank", rank().over(window))
 
 \\ select top order in each month
 ranked.filter($"rank" === 1).orderBy("month").show(10)
+```
+
+### Problem 9
+Find the top 10 revenue generating costumers
+```
+\\ join orders, order_items, and customers tables together
+val df_joined = orders.join(order_items, orders("order_id")===order_items("order_item_order_id")).
+                       join(customers, orders("order_customer_id")===customers("customer_id")).
+                       select("customer_fname", "customer_lname"), "order_item_subtotal")
+
+\\ calculate total revenue for each customer and select top 10 customers
+val df_grouped = df_joined.groupBy("customer_fname", "customer_lname").
+                           agg(round(sum($"order_item_subtotal"),1).alias("customer_revenue")).
+                           orderBy($"customer_revenue".desc).limit(10)
+```
+
+                   
