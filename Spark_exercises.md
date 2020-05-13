@@ -185,4 +185,48 @@ val df_grouped = df_joined.groupBy("customer_fname", "customer_lname").
                            orderBy($"customer_revenue".desc).limit(10)
 ```
 
+### Problem 10 
+Find the top 10 revenue generating products
+```
+\\ join products and order_items tables
+val df_joined = order_items.join(products, order_items("order_item_product_id")===products("product_id")).
+                            select("product_name", "order_item_subtotal")
                    
+\\ calculate revenue of each product and select the 10 largest products
+val df_grouped = df_joined.groupBy("product_name").
+                           agg(round(sum($"order_item_subtotal"),1).alias("product_revenue")).
+                           orderBy($"product_revenue".desc).
+                           limit(10)
+```
+
+### Problem 11
+Find 5 top revenue generating departments
+```
+\\ join order_items, products, categories, and departments tables
+val df_joined = order_items.join(products, order_items("order_item_product_id")===products("product_id")).
+                          join(categories, products("product_category_id")===categories("category_id")).
+                          join(departments, categories("category_department_id")===departments("department_id")).
+                          select("department_name", "order_item_subtotal") 
+                          
+\\ calculate revenue of each department and select the 5 top departments
+val df_grouped = df_joined.groupBy("department_name").
+                           agg(round(sum("order_item_subtotal"),1).alias("department_revenue")).
+                           orderBy($"department_revenue".desc).
+                           limit(5)
+```
+
+### Problem 12
+Find 5 top revenue generating cities in terms of customer address
+```
+\\ join order_items, orders, customers tables
+val df_joined = order_items.join(orders, order_items("order_item_order_id")===orders("order_id")).
+                            join(customers, orders("order_customer_id")===customers("customer_id")).
+                            select("customer_city", "customer_state", "order_item_subtotal")
+                            
+\\ calculate revenue for each address (city,state) and select top 5 addresses
+val df_grouped = df_joined.groupBy("customer_city", "customer_state").
+                           agg(round(sum($"order_item_subtotal"),1).alias("address_revenue")).
+                           orderBy($"address_revenue".desc).
+                           limit(5)
+```
+                           
