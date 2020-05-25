@@ -92,12 +92,18 @@ val df_avro = spark.read.format("avro").load("hdfs://localhost/user/cloudera/spa
 ```
 #### Write dataframe to XML format
 ```
-df_avro.write.format("com.databricks.spark.xml").option("rootTag", "myRootTag").option("rowTag", "myRowTag").save("hdfs://localhost/user/cloudera/spark_io/xml")
+df_avro.write.format("com.databricks.spark.xml").
+  option("rootTag", "myRootTag").
+  option("rowTag", "myRowTag").
+  save("hdfs://localhost/user/cloudera/spark_io/xml")
 ```
-### Load CSV file
+### Load XML file
 It is necessary to specify the `rootTag` and `rowTag` to import the dataframe
 ```
-val df_xml = spark.read.format("com.databricks.spark.xml").option("rootTag", "myRootTag").option("rowTag", "myRowTag").load("hdfs://localhost/user/cloudera/spark_io/xml")
+val df_xml = spark.read.format("com.databricks.spark.xml").
+  option("rootTag", "myRootTag").
+  option("rowTag", "myRowTag").
+  load("hdfs://localhost/user/cloudera/spark_io/xml")
 ```
 
 
