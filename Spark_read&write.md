@@ -20,17 +20,31 @@ option("user", "root").
 option("password", "cloudera").
 load()
 ```
-#### Write dataframe to json format 
+#### Write dataframe to Json format 
 Write data into `json` folder inside the HDFS folder
 ```
-df.write.json("hdfs://quickstart.cloudera/user/cloudera/spark_io/json")
+df.write.json("hdfs://localhost/user/cloudera/spark_io/json")
 ```
 Verify that data has been written into HDFS
 ```
 hdfs dfs -ls /user/cloudera/spark_io/json/
 hdfs dfs -cat /user/cloudera/spark_io/json/part-00000-1e355657-cb40-4cac-965c-9f7b8663342c-c000.json
 ```
-
+### Load Json file
+Import previously created json data into dataframe
+```
+val df_json = spark.read.json("hdfs://localhost/user/cloudera/spark_io/json")
+```
+this will import all json files within the directory `/user/cloudera/spark_io/json`
+#### Write data frame to Parquet format
+```
+df.write.parquet("hdfs://localhost/user/cloudera/spark_io/parquet")
+```
+Verify that data has been written into HDFS - since parquet is compressed into binary format it is necessary to use `parquet-tools` to visualise the content of the file
+```
+hdfs dfs -ls /user/cloudera/spark_io/parquet/
+parquet-tools cat hdfs://localhost/user/cloudera/spark_io/parquet/part-00001-c0338de7-04e3-40e4-946a-ada0c196bdc1-c000.snappy.parquet
+```
 #### Text:
 ```
 val df = spark.read.text("read-path.txt")
