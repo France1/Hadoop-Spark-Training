@@ -52,7 +52,7 @@ val df_parquet = spark.read.parquet("hdfs://localhost/user/cloudera/spark_io/par
 ```
 #### Write dataframe to CSV format
 ```
-df_parquet.write.csv("hdfs://localhost/user/cloudera/spark_io/csv")
+df_parquet.write.option("header","true").csv("hdfs://localhost/user/cloudera/spark_io/csv")
 ```
 Verify that data has been written into HDFS 
 ```
@@ -66,7 +66,7 @@ spark-shell --packages org.apache.spark:spark-avro_2.11:2.4.0
 ```
 Import previously created csv data into dataframe
 ```
-val df_csv = spark.read.csv("hdfs://localhost/user/cloudera/spark_io/csv")
+val df_csv = spark.read.option("header","true").option("inferSchema","true").csv("hdfs://localhost/user/cloudera/spark_io/csv")
 ```
 #### Write dataframe to Avro format
 ```
@@ -77,37 +77,28 @@ Verify that data has been written into HDFS - since avro is compressed into bina
 hdfs dfs -ls /user/cloudera/spark_io/avro/
 avro-tools tojson hdfs://localhost/user/cloudera/spark_io/avro/part-00000-f60900a4-aa03-4837-b7d3-b60a3ee3d0a3-c000.avro
 ```
-#### Text:
+Avro files can also be saved as a Hive table
 ```
-val df = spark.read.text("read-path.txt")
-df = spark.write.text("write-path.txt")
+df_csv.write.format("com.databricks.spark.avro").saveAsTable(hivedb.hivetable_avro)
 ```
-#### CSV:
+### Load Avro file
+Include spark avro and xml dependencies 
 ```
-val df = spark.read.csv("read-path.csv")
-df = spark.write.csv("write-path.csv")
+spark-shell --packages com.databricks:spark-xml_2.11:0.9.0,org.apache.spark:spark-avro_2.11:2.4.0
 ```
-#### JSON:
+Import previously created avro data into dataframe
 ```
-val df = spark.read.json("read-path.json")
-df = spark.write.json("write-path.json")
+val df_avro = spark.read.format("avro").load("hdfs://localhost/user/cloudera/spark_io/avro")
 ```
-#### Parquet:
+#### Write dataframe to XML format
 ```
-val df = spark.read.parquet("read-path.parquet")
-df = spark.write.csv("write-path.parquet")
+df_avro.write.format("com.databricks.spark.xml").option("rootTag", "myRootTag").option("rowTag", "myRowTag").save("hdfs://localhost/user/cloudera/spark_io/xml")
 ```
-#### Avro
-Include the spark avro in the dependencies for the current scala version `2.11`, and spark version `2.4.0`
+### Load CSV file
+It is necessary to specify the `rootTag` and `rowTag` to import the dataframe
 ```
-spark-shell --packages org.apache.spark:spark-avro_2.11:2.4.0
+val df_xml = spark.read.format("com.databricks.spark.xml").option("rootTag", "myRootTag").option("rowTag", "myRowTag").load("hdfs://localhost/user/cloudera/spark_io/xml")
 ```
-then read/write files as
-```
-val df = spark.read.format("avro").load("read-path.avro")
-df.write.format("avro").save("write-path.avro")
-df.write.format("com.databricks.spark.avro").saveAsTable(hivedb.hivetable_avro)
-```
-  
+
 
 
