@@ -20,11 +20,11 @@ spark-shell\
 Cloudera VM installation contains the popular *retail_db* dataset inside a MySQL database. Import `orders` table from `retail_db` into a dataframe
 ```
 val df_sql = spark.read.format("jdbc").
-option("url", "jdbc:mysql://quickstart:3306/retail_db").
-option("dbtable", "orders").
-option("user", "root").
-option("password", "cloudera").
-load()
+ option("url", "jdbc:mysql://quickstart:3306/retail_db").
+ option("dbtable", "orders").
+ option("user", "root").
+ option("password", "cloudera").
+ load()
 ```
 #### Write dataframe to Json format 
 Write data into `json` folder inside the HDFS folder
