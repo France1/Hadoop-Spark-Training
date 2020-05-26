@@ -57,8 +57,7 @@ ShortType: smallint
 StringType: string
 TimestampType: timestamp
 ```         
-
-## Dataframe Operations
+## Manipulate columns
 
 #### Select
 Select columns
@@ -67,10 +66,22 @@ df.select("order_id", "order_date").show(5)
 ```
 Select columns and apply a transformation:
 ```
-df.select($"order_id"+1, $"order_date").show(5)
+df.select(($"order_id"+1).as("new_order_id"), $"order_date").show(5)
 \\ or 
-df.select(col("order_id")+1, col("order_date")).show(5)
+df.select((col("order_id")+1).as("new_order_id"), col("order_date")).show(5)
 ```
+#### Modify data type
+Convert from long into int data type
+```
+val df_int = df.withColumn("order_id", $"order_id".cast("Int"))
+```
+#### New column 
+Add column as substring of existing column
+```
+val df_code = df.withColumn("order_code", $"order_status".substr(0,2))
+```
+## Dataframe Operations
+
 #### Filter
 Single condition
 ```
