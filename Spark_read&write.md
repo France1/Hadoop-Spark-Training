@@ -5,14 +5,14 @@ Spark uses [DataFrameReader](https://spark.apache.org/docs/latest/api/scala/inde
 
 In order to read and write files we first create a HDFS folder
 ```
-hdfs dfs hdfs dfs -mkdir /user/cloudera/spark_io
+hdfs dfs -mkdir /user/cloudera/spark_io
 ```
 
 Additional dependencies are needed to interact with MySQL and to manipulate Avro and XML file formats. To connect spark to MySQL first download [MySQL driver](https://dev.mysql.com/downloads/connector/j/5.1.html) into the `drivers` folder. Then start spark-shell adding all the dependecies
 ```
 spark-shell\
---driver-class-path drivers/mysql-connector-java-5.1.48/mysql-connector-java-5.1.48-bin.jar\
---packages com.databricks:spark-xml_2.11:0.9.0,org.apache.spark:spark-avro_2.11:2.4.0
+ --driver-class-path drivers/mysql-connector-java-5.1.48/mysql-connector-java-5.1.48-bin.jar\
+ --packages com.databricks:spark-xml_2.11:0.9.0,org.apache.spark:spark-avro_2.11:2.4.0
 
 ```
 
@@ -23,7 +23,7 @@ spark-shell --driver-class-path drivers/mysql-connector-java-5.1.48/mysql-connec
 ```
 then read for instance `orders` table from database as
 ```
-val df = spark.read.format("jdbc").
+val df_sql = spark.read.format("jdbc").
 option("url", "jdbc:mysql://quickstart:3306/retail_db").
 option("dbtable", "orders").
 option("user", "root").
@@ -33,7 +33,7 @@ load()
 #### Write dataframe to Json format 
 Write data into `json` folder inside the HDFS folder
 ```
-df.write.json("hdfs://localhost/user/cloudera/spark_io/json")
+df_sql.write.json("hdfs://localhost/user/cloudera/spark_io/json")
 ```
 Verify that data has been written into HDFS
 ```
@@ -70,10 +70,6 @@ hdfs dfs -ls /user/cloudera/spark_io/csv/
 hdfs dfs -cat /user/cloudera/spark_io/csv/part-00001-9060606a-4285-4af0-a643-ad6a872bfc3c-c000.csv
 ```
 ### Load CSV file
-Include the spark avro in the dependencies for the current scala version `2.11`, and spark version `2.4.0`
-```
-spark-shell --packages org.apache.spark:spark-avro_2.11:2.4.0
-```
 Import previously created csv data into dataframe
 ```
 val df_csv = spark.read.option("header","true").option("inferSchema","true").csv("hdfs://localhost/user/cloudera/spark_io/csv")
@@ -92,10 +88,6 @@ Avro files can also be saved as a Hive table
 df_csv.write.format("com.databricks.spark.avro").saveAsTable(hivedb.hivetable_avro)
 ```
 ### Load Avro file
-Include spark avro and xml dependencies 
-```
-spark-shell --packages com.databricks:spark-xml_2.11:0.9.0,org.apache.spark:spark-avro_2.11:2.4.0
-```
 Import previously created avro data into dataframe
 ```
 val df_avro = spark.read.format("avro").load("hdfs://localhost/user/cloudera/spark_io/avro")
