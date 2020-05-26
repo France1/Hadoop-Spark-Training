@@ -68,7 +68,10 @@ hdfs dfs -cat /user/cloudera/spark_io/csv/part-00001-9060606a-4285-4af0-a643-ad6
 ### Load CSV file
 Import previously created csv data into dataframe
 ```
-val df_csv = spark.read.option("header","true").option("inferSchema","true").csv("hdfs://localhost/user/cloudera/spark_io/csv")
+val df_csv = spark.read.
+ option("header","true").
+ option("inferSchema","true").
+ csv("hdfs://localhost/user/cloudera/spark_io/csv")
 ```
 #### Write dataframe to Avro format
 ```
