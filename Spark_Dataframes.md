@@ -80,6 +80,26 @@ Add column as substring of existing column
 ```
 df.withColumn("order_code", $"order_status".substr(0,2)).show(5)
 ```
+## Manipulate strings
+
+#### Uppercase and lowercase
+```
+customers.select(upper($"customer_fname").as("fname"), lower($"customer_lname").as("lname")).show(5)
+```
+#### Replacement with regexp
+```
+customers.select(regexp_replace($"customer_lname", "He", "Be")).show(5)
+```
+#### Concatenate
+Concatenate names with `:`
+```
+val new_customers = customers.withColumn("full_name", concat_ws(":", $"customer_fname", $"customer_lname")).show(5) 
+```
+#### Split and index
+```
+new_customers.select(split($"full_name", ":")(0).as("new_name")).show(5)
+```
+
 ## Filtering
 
 #### Comparison
