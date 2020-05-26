@@ -106,5 +106,15 @@ val df_xml = spark.read.format("com.databricks.spark.xml").
   option("rowTag", "myRowTag").
   load("hdfs://localhost/user/cloudera/spark_io/xml")
 ```
-
+## Hive
+The following is not currently working in cloudera VM
+#### Read table
+Import `customers` table in Hive Metastore into a dataframe
+```
+val df = spark.sql("select * from customers")
+```
+#### Write table
+```
+df.save.format("hive").saveAsTable("cutomers_new")
+```
 
