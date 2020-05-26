@@ -3,12 +3,12 @@
 Spark uses [DataFrameReader](https://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.sql.DataFrameReader) to load different types of data sources from external storage into a dataframe, and [DataFrameWriter](https://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.sql.DataFrameWriter
 ) to save a dataframe to external storage. 
 
-In order to read and write files we first create a HDFS folder
+In order to read and write files in Hadoop we first have to create a HDFS folder
 ```
 hdfs dfs -mkdir /user/cloudera/spark_io
 ```
 
-Additional dependencies are needed to interact with MySQL and to manipulate Avro and XML file formats. To connect spark to MySQL first download [MySQL driver](https://dev.mysql.com/downloads/connector/j/5.1.html) into the `drivers` folder. Then start spark-shell adding all the dependecies
+Additional dependencies are needed to interact with MySQL and to manipulate Avro and XML file formats. To connect spark to MySQL first download [MySQL driver](https://dev.mysql.com/downloads/connector/j/5.1.html) into the `drivers` folder. Then start spark-shell while adding JDCB, Avro and XML dependencies
 ```
 spark-shell\
  --driver-class-path drivers/mysql-connector-java-5.1.48/mysql-connector-java-5.1.48-bin.jar\
@@ -17,11 +17,7 @@ spark-shell\
 ```
 
 ### Load data from MySQL database
-Cloudera VM installation contains the popular *retail_db* dataset inside a MySQL database. To connect spark to MySQL first download [MySQL driver](https://dev.mysql.com/downloads/connector/j/5.1.html) into the `drivers` folder. Then make it available to Spark shell
-```
-spark-shell --driver-class-path drivers/mysql-connector-java-5.1.48/mysql-connector-java-5.1.48-bin.jar 
-```
-then read for instance `orders` table from database as
+Cloudera VM installation contains the popular *retail_db* dataset inside a MySQL database. Import `orders` table from `retail_db` into a dataframe
 ```
 val df_sql = spark.read.format("jdbc").
 option("url", "jdbc:mysql://quickstart:3306/retail_db").
