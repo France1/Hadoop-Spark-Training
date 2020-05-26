@@ -73,12 +73,12 @@ df.select((col("order_id")+1).as("new_order_id"), col("order_date")).show(5)
 #### Modify data type
 Convert from long into int data type
 ```
-val df_int = df.withColumn("order_id", $"order_id".cast("Int"))
+df.withColumn("order_id", $"order_id".cast("Int")).printSchema
 ```
 #### New column 
 Add column as substring of existing column
 ```
-val df_code = df.withColumn("order_code", $"order_status".substr(0,2))
+df.withColumn("order_code", $"order_status".substr(0,2)).show(5)
 ```
 ## Dataframe Operations
 
