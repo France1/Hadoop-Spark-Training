@@ -80,21 +80,41 @@ Add column as substring of existing column
 ```
 df.withColumn("order_code", $"order_status".substr(0,2)).show(5)
 ```
-## Dataframe Operations
+## Filtering
 
-#### Filter
+#### Comparison
 Single condition
 ```
-df.filter(df("order_status") === "COMPLETE").show(5)
+df.filter($"order_status" === "COMPLETE").show(5)
 ```
 Multiple conditions
 ```
-df.filter(df("order_status") === "COMPLETE" || 
-          df("order_status") === "ON_HOLD").show(5)
+df.filter($"order_status" === "COMPLETE" || 
+          $"order_status" === "ON_HOLD").show(5)
 
-df.filter(df("order_status") === "COMPLETE" && 
+df.filter($"order_status" === "COMPLETE" && 
           date_format($"order_date", "yyyyMM") === "201308").show(5)
 ```
+#### Contain
+```
+df.filter($"order_status".contains("PAYMENT")).show(5)
+```
+#### Between limits
+```
+df.filter($"order_id".between(0,8)).show(10)
+```
+#### Within list
+```
+df.filter($"order_status".isin("COMPLETE", "CLOSED")).show(5)
+```
+#### String starting with
+```
+df.filter($"order_status".startsWith("C")).show(5)
+\\ or
+df.filter($"order_status".like("C%")).show(5)
+```
+## Dataframe Operations
+
 #### When
 Modify column values based on condition
 ```
