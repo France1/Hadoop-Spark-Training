@@ -1,4 +1,9 @@
 # Spark Dataframes
+Useful references:
+- [Data types](https://spark.apache.org/docs/latest/sql-reference.html)
+- [Column espressions](https://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.sql.Column)
+- [Common functions](https://spark.apache.org/docs/2.4.0/api/scala/index.html#org.apache.spark.sql.functions$)
+- [Dataframe functions](https://spark.apache.org/docs/1.5.0/api/java/org/apache/spark/sql/DataFrame.html)
 
 ## Initialize Dataframe
 #### Infer  schema
