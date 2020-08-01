@@ -13,6 +13,6 @@ Cloudera Live VM can be accessed at `localhost:80` and Hue at `localhost:8888` u
 
 To upgrade to Spark 2.4
 ```
-./cloudera/Hadoop-Spark-Training/upgrade_spark.sh
+./cloudera/upgrade_spark.sh
 source ~/.bash_profile.sh
 ```
