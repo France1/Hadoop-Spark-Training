@@ -1,0 +1,8 @@
+Maths,10
+Science,20
+Computers,20
+Maths,5
+Science,5
+Computers,23
+Maths,25
+Science,20
