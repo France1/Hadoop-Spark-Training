@@ -107,7 +107,34 @@ val df_xml = spark.read.format("com.databricks.spark.xml").
   load("hdfs://localhost/user/cloudera/spark_io/xml")
 ```
 ## Hive
-The following is not currently working in cloudera VM
+Firstly load csv data stored locally into a Hive table, then read/write using Spark dataframes
+
+#### Load data into Hive table in HDFS
+Create a database `hive_d` at HDFS storage location `/user/cloudera/hive_database`:
+```
+CREATE DATABASE hive_db COMMENT 'hive spark database' LOCATION '/user/cloudera/hive_database';
+USE hive_db;
+```
+Create Hive `orders` table
+```
+CREATE TABLE orders
+(order_id INT, order_date TIMESTAMP, order_customer_id INT, order_status STRING)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ","
+STORED AS TEXTFILE;
+```
+Load data from local file `/cloudera/data/retail_db/orders.csv` into Hive `orders` table
+```
+LOAD DATA LOCAL INPATH '/cloudera/data/retail_db/orders.csv' OVERWRITE INTO TABLE orders;
+```
+Verify that data has been copied
+```
+SELECT * FROM orders LIMIT 5;
+```
+and thata data are stored in HDFS
+```
+hdfs dfs -ls /user/cloudera/hive_database/orders
+```
+
 #### Read table
 Import `customers` table in Hive Metastore into a dataframe
 ```
