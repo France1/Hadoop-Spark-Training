@@ -107,10 +107,10 @@ val df_xml = spark.read.format("com.databricks.spark.xml").
   load("hdfs://localhost/user/cloudera/spark_io/xml")
 ```
 ## Hive
-Firstly load csv data stored locally into a Hive table, then read/write using Spark dataframes
+Load CSV data that are stored locally into a Hive table, then read/write using Spark
 
-#### Load data into Hive table in HDFS
-Create a database `hive_d` at HDFS storage location `/user/cloudera/hive_database`:
+#### Load data into Hive table
+Create a database `hive_db` at HDFS storage location `/user/cloudera/hive_database`:
 ```
 CREATE DATABASE hive_db COMMENT 'hive spark database' LOCATION '/user/cloudera/hive_database';
 USE hive_db;
