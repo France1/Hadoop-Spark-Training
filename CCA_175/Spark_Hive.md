@@ -13,6 +13,7 @@ CREATE TABLE orders
 (order_id INT, order_date TIMESTAMP, order_customer_id INT, order_status STRING)
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ","
 STORED AS TEXTFILE;
+TBLPROPERTIES ("skip.header.line.count"="1");
 ```
 Load data from local file `/cloudera/data/retail_db/orders.csv` into Hive `orders` table
 ```
@@ -38,6 +39,10 @@ val df = spark.sql("select * from hive_db.orders")
 df.show()
 ```
 #### Write table
+Save dataframe as Hive table `orders_new`, then verify that table has been saved
 ```
-df.save.format("hive").saveAsTable("cutomers_new")
+df.write.saveAsTable("hive_db.orders_new")
+spark.sql("show tables in hive_db").show()
 ```
+
+Add different formats and compressions
