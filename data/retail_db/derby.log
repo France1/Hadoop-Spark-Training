@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Sun Aug 02 07:42:45 UTC 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0173-ae1f-7a20-0000190f5c80 
+on database directory /cloudera/data/retail_db/metastore_db with class loader sun.misc.Launcher$AppClassLoader@5caf905d 
+Loaded from file:/home/spark_2/jars/derby-10.12.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_252-b09
+user.dir=/cloudera/data/retail_db
+os.name=Linux
+os.arch=amd64
+os.version=4.9.184-linuxkit
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
