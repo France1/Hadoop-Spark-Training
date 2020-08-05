@@ -107,3 +107,6 @@ val df_xml = spark.read.format("com.databricks.spark.xml").
   load("hdfs://localhost/user/cloudera/spark_io/xml")
 ```
 
+## File Compression
+examples of different types of compression for write
+
