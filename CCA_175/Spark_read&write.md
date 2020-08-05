@@ -7,6 +7,7 @@ In order to read and write files in Hadoop we first have to create a HDFS folder
 ```
 hdfs dfs -mkdir /user/cloudera/spark_io
 ```
+ADD SAVING TO LOCAL OR TO HDFS IF RELEVANT
 
 Additional dependencies are needed to interact with MySQL and to manipulate Avro and XML file formats. To connect spark to MySQL first download [MySQL driver](https://dev.mysql.com/downloads/connector/j/5.1.html) into the `drivers` folder. Then start spark-shell while adding JDCB, Avro and XML dependencies
 ```
