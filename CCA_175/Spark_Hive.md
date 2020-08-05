@@ -12,7 +12,7 @@ Create Hive `orders` table
 CREATE TABLE orders
 (order_id INT, order_date TIMESTAMP, order_customer_id INT, order_status STRING)
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ","
-STORED AS TEXTFILE;
+STORED AS TEXTFILE
 TBLPROPERTIES ("skip.header.line.count"="1");
 ```
 Load data from local file `/cloudera/data/retail_db/orders.csv` into Hive `orders` table
