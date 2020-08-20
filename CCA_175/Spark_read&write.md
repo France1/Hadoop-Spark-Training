@@ -12,7 +12,7 @@ ADD SAVING TO LOCAL OR TO HDFS IF RELEVANT
 Additional dependencies are needed to interact with MySQL and to manipulate Avro and XML file formats. To connect spark to MySQL first download [MySQL driver](https://dev.mysql.com/downloads/connector/j/5.1.html) into the `drivers` folder. Then start spark-shell while adding JDCB, Avro and XML dependencies
 ```
 spark-shell\
- --driver-class-path drivers/mysql-connector-java-5.1.48/mysql-connector-java-5.1.48-bin.jar\
+ --driver-class-path cloudera/drivers/mysql-connector-java-5.1.48/mysql-connector-java-5.1.48-bin.jar\
  --packages com.databricks:spark-xml_2.11:0.9.0,org.apache.spark:spark-avro_2.11:2.4.0
 
 ```
