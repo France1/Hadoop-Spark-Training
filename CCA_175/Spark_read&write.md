@@ -30,8 +30,11 @@ val df_sql = spark.read.format("jdbc").
 #### Write dataframe to Json format 
 Write data into `json` folder inside the HDFS folder
 ```
-df_sql.write.json("hdfs://localhost/user/cloudera/spark_io/json")
+df_sql.write.
+       option("compression","<file_compression>").
+       json("hdfs://localhost/user/cloudera/spark_io/json_compression")
 ```
+where `file_compression` can be `none, gzip, bzip2, lz4, snappy, deflate`.
 Verify that data has been written into HDFS
 ```
 hdfs dfs -ls /user/cloudera/spark_io/json/
