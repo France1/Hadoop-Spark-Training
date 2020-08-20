@@ -48,8 +48,11 @@ Hive tables can be saved in different file formats and with different compressio
 ```
 df.write.option("format","<file_format>").option("compression","<file_compression>").saveAsTable("hive_db.orders_format_compression")
 ```
-where
-| file_format  | file_compression |
-| ------------ | ---------------- |
-| csv          | gzip, bzip2      |
-| json         | |
+where:
+| file_format  | file_compression    |
+| ------------ | ------------------- |
+| csv          | none, gzip, bzip2   |
+| json         | none, gzip, bzip2   |
+| parquet      | none, gzip, snappy  |
+| avro         | none, gzip, snappy  |
+| orc          | none, gzip, snappy  |
