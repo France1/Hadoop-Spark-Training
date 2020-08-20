@@ -44,5 +44,12 @@ Save dataframe as Hive table `orders_new`, then verify that table has been saved
 df.write.saveAsTable("hive_db.orders_new")
 spark.sql("show tables in hive_db").show()
 ```
-
-Add different formats and compressions
+Hive tables can be saved in different file formats and with different compressions
+```
+df.write.option("format","<file_format>").option("compression","<file_compression>").saveAsTable("hive_db.orders_format_compression")
+```
+where
+| file_format  | file_compression |
+| ------------ | ---------------- |
+| csv          | gzip, bzip2      |
+| json         | |
