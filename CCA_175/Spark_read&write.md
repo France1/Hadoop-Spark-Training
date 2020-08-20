@@ -32,9 +32,9 @@ Write data into `json` folder inside the HDFS folder
 ```
 df_sql.write.
        option("compression","<file_compression>").
-       json("hdfs://localhost/user/cloudera/spark_io/json_compression")
+       json("hdfs://localhost/user/cloudera/spark_io/json")
 ```
-where `file_compression` can be `none, gzip, bzip2, lz4, snappy, deflate`.
+where `<file_compression>` can be `none, gzip, bzip2, deflate`.
 Verify that data has been written into HDFS
 ```
 hdfs dfs -ls /user/cloudera/spark_io/json/
@@ -48,8 +48,11 @@ val df_json = spark.read.json("hdfs://localhost/user/cloudera/spark_io/json")
 this will import all json files within the directory `/user/cloudera/spark_io/json`
 #### Write data frame to Parquet format
 ```
-df_json.write.parquet("hdfs://localhost/user/cloudera/spark_io/parquet")
+df_json.write.
+       option("compression","<file_compression>").
+       parquet("hdfs://localhost/user/cloudera/spark_io/parquet")
 ```
+where `<file_compression>` can be `none, gzip, snappy`.
 Verify that data has been written into HDFS - since parquet is compressed into binary format it is necessary to use `parquet-tools` to visualise the content of the file
 ```
 hdfs dfs -ls /user/cloudera/spark_io/parquet/
@@ -62,8 +65,12 @@ val df_parquet = spark.read.parquet("hdfs://localhost/user/cloudera/spark_io/par
 ```
 #### Write dataframe to CSV format
 ```
-df_parquet.write.option("header","true").csv("hdfs://localhost/user/cloudera/spark_io/csv")
+df_parquet.write.
+           option("header","true").
+           option("compression","<file_compression>").
+           csv("hdfs://localhost/user/cloudera/spark_io/csv")
 ```
+where `<file_compression>` can be `none, gzip, bzip2, deflate`.
 Verify that data has been written into HDFS 
 ```
 hdfs dfs -ls /user/cloudera/spark_io/csv/
@@ -79,8 +86,12 @@ val df_csv = spark.read.
 ```
 #### Write dataframe to Avro format
 ```
-df_csv.write.format("avro").save("hdfs://localhost/user/cloudera/spark_io/avro")
+df_csv.write.
+       format("avro").
+       option("compression","<file_compression>").
+       save("hdfs://localhost/user/cloudera/spark_io/avro")
 ```
+where `<file_compression>` can be `bzip2, deflate, snappy`.
 Verify that data has been written into HDFS - since avro is compressed into binary format it is necessary to use `avro-tools` to visualise the content of the file 
 ```
 hdfs dfs -ls /user/cloudera/spark_io/avro/
@@ -100,8 +111,10 @@ val df_avro = spark.read.format("avro").load("hdfs://localhost/user/cloudera/spa
 df_avro.write.format("com.databricks.spark.xml").
   option("rootTag", "myRootTag").
   option("rowTag", "myRowTag").
+  option("compression","<file_compression>").
   save("hdfs://localhost/user/cloudera/spark_io/xml")
 ```
+where `<file_compression>` can be `gzip, bzip2`.
 ### Load XML file
 It is necessary to specify the `rootTag` and `rowTag` to import the dataframe
 ```
@@ -110,7 +123,4 @@ val df_xml = spark.read.format("com.databricks.spark.xml").
   option("rowTag", "myRowTag").
   load("hdfs://localhost/user/cloudera/spark_io/xml")
 ```
-
-## File Compression
-examples of different types of compression for write
 
