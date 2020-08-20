@@ -46,7 +46,9 @@ spark.sql("show tables in hive_db").show()
 ```
 Hive tables can be saved in different file formats and with different compressions
 ```
-df.write.option("format","<file_format>").option("compression","<file_compression>").saveAsTable("hive_db.orders_format_compression")
+df.write.option("format","<file_format>")
+        .option("compression","<file_compression>")
+        .saveAsTable("hive_db.orders_format_compression")
 ```
 where:
 | file_format  | file_compression    |
