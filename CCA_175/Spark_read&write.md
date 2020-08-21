@@ -3,12 +3,6 @@
 Spark uses [DataFrameReader](https://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.sql.DataFrameReader) to load different types of data sources from external storage into a dataframe, and [DataFrameWriter](https://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.sql.DataFrameWriter
 ) to save a dataframe to external storage. 
 
-In order to read and write files in Hadoop we first have to create a HDFS folder
-```
-hdfs dfs -mkdir /user/cloudera/spark_io
-```
-ADD SAVING TO LOCAL OR TO HDFS IF RELEVANT
-
 Additional dependencies are needed to interact with MySQL and to manipulate Avro and XML file formats. To connect spark to MySQL first download [MySQL driver](https://dev.mysql.com/downloads/connector/j/5.1.html) into the `drivers` folder. Then start spark-shell while adding JDCB, Avro and XML dependencies
 ```
 spark-shell\
@@ -16,6 +10,13 @@ spark-shell\
  --packages com.databricks:spark-xml_2.11:0.9.0,org.apache.spark:spark-avro_2.11:2.4.0
 
 ```
+### Load and write data in HDFS
+Create a folder called `spark_io` to load and write data into HDFS:
+```
+hdfs dfs -mkdir /user/cloudera/spark_io
+```
+An additional prefix `hdfs://localhost` has to be added when reading and writing data into HDFS, otherwise the local file system is used.
+
 
 ### Load data from MySQL database
 Cloudera VM installation contains the popular *retail_db* dataset inside a MySQL database. Import `orders` table from `retail_db` into a dataframe
