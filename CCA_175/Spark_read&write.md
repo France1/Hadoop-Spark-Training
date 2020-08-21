@@ -15,7 +15,7 @@ Create a folder called `spark_io` to load and write data into HDFS:
 ```
 hdfs dfs -mkdir /user/cloudera/spark_io
 ```
-An additional prefix `hdfs://localhost` has to be added when reading and writing data into HDFS, otherwise the local file system is used.
+An additional prefix `hdfs://localhost` has to be added when reading and writing data into HDFS, otherwise the _local_ file system is used.
 
 
 ### Load data from MySQL database
