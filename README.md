@@ -16,3 +16,6 @@ To upgrade to Spark 2.4
 ./cloudera/upgrade_spark.sh
 source ~/.bash_profile
 ```
+
+### Other references
+[Exam content and tips 2020](https://towardsdatascience.com/clouderas-cca-175-the-2020-update-what-changed-what-didn-t-and-how-to-prepare-for-the-exam-716413ff1f15)
