@@ -22,3 +22,4 @@ source ~/.bash_profile
 - [Cloudera new exam environment](https://ondemand.cloudera.com/courses/course-v1:Cloudera+CertPrep+101/courseware/f39b99b8d41849beb5b2453d539059fe/e4ae1c3be51349e685f5dc016fabd3a9/?activate_block_id=block-v1%3ACloudera%2BCertPrep%2B101%2Btype%40sequential%2Bblock%40e4ae1c3be51349e685f5dc016fabd3a9)
 - [Itversity exam tips](https://www.youtube.com/watch?v=GqvhRtN73yQ)
 - [Scala examples](https://github.com/dgadiraju/itversity-books/tree/master/CCA175%20Scala)
+- [Study Guide](https://iqunlock.com/cca175-spark-and-hadoop-developer-exam/)
