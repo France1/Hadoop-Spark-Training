@@ -16,3 +16,4 @@ spark-shell --num-executors 10 --executor-memory 2G
 ```
 
 
+## ADD AVRO AND JDBC CONNECTOR?
