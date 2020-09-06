@@ -35,7 +35,7 @@ df_sql.write.
        option("compression","<file_compression>").
        json("hdfs://localhost/user/cloudera/spark_io/json")
 ```
-where `<file_compression>` can be `none, gzip, bzip2, deflate`.
+where `<file_compression>` can be `none, bzip2, gzip, lz4, snappy and deflate`.
 Verify that data has been written into HDFS
 ```
 hdfs dfs -ls /user/cloudera/spark_io/json/
@@ -53,7 +53,7 @@ df_json.write.
        option("compression","<file_compression>").
        parquet("hdfs://localhost/user/cloudera/spark_io/parquet")
 ```
-where `<file_compression>` can be `none, gzip, snappy`.
+where `<file_compression>` can be `none, uncompressed, snappy, gzip, lzo, brotli, lz4, and zstd`.
 Verify that data has been written into HDFS - since parquet is compressed into binary format it is necessary to use `parquet-tools` to visualise the content of the file
 ```
 hdfs dfs -ls /user/cloudera/spark_io/parquet/
@@ -71,7 +71,7 @@ df_parquet.write.
            option("compression","<file_compression>").
            csv("hdfs://localhost/user/cloudera/spark_io/csv")
 ```
-where `<file_compression>` can be `none, gzip, bzip2, deflate`.
+where `<file_compression>` can be `none, bzip2, gzip, lz4, snappy and deflate`.
 Verify that data has been written into HDFS 
 ```
 hdfs dfs -ls /user/cloudera/spark_io/csv/
