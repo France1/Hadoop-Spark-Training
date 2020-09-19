@@ -3,13 +3,6 @@
 Spark uses [DataFrameReader](https://spark.apache.org/docs/2.4.0/api/scala/index.html#org.apache.spark.sql.DataFrameReader) to load different types of data sources from external storage into a dataframe, and [DataFrameWriter](https://spark.apache.org/docs/2.4.0/api/scala/index.html#org.apache.spark.sql.DataFrameWriter
 ) to save a dataframe to external storage. 
 
-Additional dependencies are needed to interact with MySQL and to manipulate Avro and XML file formats. To connect spark to MySQL first download [MySQL driver](https://dev.mysql.com/downloads/connector/j/5.1.html) into the `drivers` folder. Then start spark-shell while adding JDCB, Avro and XML dependencies
-```
-spark-shell\
- --driver-class-path cloudera/drivers/mysql-connector-java-5.1.48/mysql-connector-java-5.1.48-bin.jar\
- --packages com.databricks:spark-xml_2.11:0.9.0,org.apache.spark:spark-avro_2.11:2.4.0
-
-```
 ### Load and write data in HDFS
 Create a folder called `spark_io` to load and write data into HDFS:
 ```
