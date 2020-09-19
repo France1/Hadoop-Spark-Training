@@ -36,7 +36,7 @@ spark-shell --packages com.databricks:spark-xml_2.11:0.9.0
 ```
 
 ### Multiple configurations
-To combine MySQL connectivity with Avro and XML file packages:
+To combine MySQL driver with Avro and XML file packages:
 ```
 spark-shell\
  --driver-class-path cloudera/drivers/mysql-connector-java-5.1.48/mysql-connector-java-5.1.48-bin.jar\
