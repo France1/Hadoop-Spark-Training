@@ -1,4 +1,4 @@
-# Modify default configurations
+# Modifying Spark default configurations
 
 ### Spark-shell configurations
 Recover the list of all configuration arguments that can be specified before starting `spark-shell`:
