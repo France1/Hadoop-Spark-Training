@@ -11,38 +11,35 @@ Useful references:
 val df = spark.read.
          option("header", "true").
          option("inferSchema","true").
-         csv("/cloudera/Hadoop-Spark-Training/data/retail_db/orders.csv")
+         csv("/cloudera/data/retail_db/orders.csv")
 ```
 #### Read first then modify schema
 ```
 val df = spark.read.
          option("header", "true").
-         csv("/cloudera/Hadoop-Spark-Training/data/retail_db/orders.csv")
+         csv("/cloudera/data/retail_db/orders.csv")
 
 val df_new = df.select(
-             df("order_id").cast("integer"),
+             df("order_id").cast("int"),
              df("order_date").cast("timestamp"),
-             df("order_customer_id").cast("integer"),
+             df("order_customer_id").cast("int"),
              df("order_status").cast("string")
              )
 ```
 #### Define schema then read
-```
-import org.apache.spark.sql.types._
-
-val schema = StructType(Array(
-             StructField("order_id", IntegerType, false),
-             StructField("order_date", TimestampType, false),
-             StructField("order_customer_id", IntegerType, false),
-             StructField("order_status", StringType, false)
-             ))
-             
+```      
 val df = spark.read.
-         option("header", "true").
-         schema(schema).
-         csv("/cloudera/Hadoop-Spark-Training/data/retail_db/orders.csv")
+         option("header","true").
+         schema("""order_id int,
+                   order_date timestamp,
+                   order_customer_id int,
+                   order_status string
+                """
+                ).
+         csv("/cloudera/data/retail_db/orders.csv")
+         
 ```
-Note that the data types need to be imported with `import org.apache.spark.sql.types._`, with data type names defined as below
+Data type names are defined as
 ```
 BinaryType: binary
 BooleanType: boolean
@@ -56,7 +53,7 @@ LongType: bigint
 ShortType: smallint
 StringType: string
 TimestampType: timestamp
-```         
+```
 ## Manipulate columns
 
 #### Select
